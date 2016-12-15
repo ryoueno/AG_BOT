@@ -1,49 +1,25 @@
 <?php
-echo "hello heroku";
-error_log(date('H:i:s'));
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Symfony\Component\HttpFoundation\Request;
+use \LINE\LINEBot\HTTPClient\CurlHTTPClient;
+use \LINE\LINEBot;
+use \LINE\LINEBot\Constant\HTTPHeader;
+use \LINE\LINEBot\Event\MessageEvent;
+use \LINE\LINEBot\Event\MessageEvent\TextMessage;
 
-$app = new Silex\Application();
+$httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
+$bot = new LINEBot(
+    $httpClient,
+    [
+        'channelSecret' => getenv('CHANNEL_SECRET'),
+    ]
+);
+$sign   = $_SERVER["HTTP_" . HTTPHeader::LINE_SIGNATURE];
+$events = $bot->parseEventRequest(file_get_contents('php://input'), $sign);
 
-$app->post('/callback', function (Request $request) use ($app) {
-    $client = new GuzzleHttp\Client();
-
-    $body = json_decode($request->getContent(), true);
-    foreach ($body['result'] as $msg) {
-        if (!preg_match('/(ぬるぽ|ヌルポ|ﾇﾙﾎﾟ|nullpo)/i', $msg['content']['text'])) {
-            continue;
-        }
-
-        $resContent = $msg['content'];
-        $resContent['text'] = 'ｶﾞｯ';
-
-        $requestOptions = [
-            'body' => json_encode([
-                'to' => [$msg['content']['from']],
-                'toChannel' => 1383378250, # Fixed value
-                'eventType' => '138311608800106203', # Fixed value
-                'content' => $resContent,
-            ]),
-            'headers' => [
-                'Content-Type' => 'application/json; charset=UTF-8',
-                'X-Line-ChannelID' => '1489137629',
-                'X-Line-ChannelSecret' => 'e74799cad8fb491e03d0891ffb9913f8',
-            ],
-            'proxy' => [
-                'https' => getenv('FIXIE_URL'),
-            ],
-        ];
-
-        try {
-            $client->request('post', 'https://trialbot-api.line.me/v1/events', $requestOptions);
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-        }
+foreach ($events as $event) {
+    if (!($event instanceof MessageEvent) || !($event instanceof TextMessage)) {
+        continue;
     }
-
-    return 'OK';
-});
-
-$app->run();
+    $bot->replyText($event->getReplyToken(), $event->getText());
+}
