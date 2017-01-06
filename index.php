@@ -37,7 +37,7 @@ $confirm_message = new TemplateMessageBuilder("メッセージのタイトル", 
 /* コンファームテスト */
 
 $message = new MultiMessageBuilder();
-$message->add($carousel_message);
+$message->add($confirm_message);
 
 foreach ($events as $event) {
     if (!($event instanceof MessageEvent) || !($event instanceof TextMessage)) {
