@@ -9,7 +9,7 @@ use \LINE\LINEBot\Event\MessageEvent\TextMessage;
 use \LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
 use \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder;
-use \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder.php;
+use \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder;
 use \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder;
 
 
