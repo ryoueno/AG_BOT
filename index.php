@@ -26,13 +26,17 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $sign);
 /* カルーセルテスト */
 $columns = []; // カルーセル型カラムを5つ追加する配列
 $lists = [0,1,2,3,4];
-foreach ($lists as $list) {
-    // カルーセルに付与するボタンを作る
+// foreach ($lists as $list) {
+//     // カルーセルに付与するボタンを作る
     $action = new UriTemplateActionBuilder("クリックしてね", "https://www.yahoo.co.jp");
     // カルーセルのカラムを作成する
-    $column = new CarouselColumnTemplateBuilder("Yahoo Japan", "これは追加メッセージです", "", [$action]);
+    $column = new CarouselColumnTemplateBuilder("Yahoo Japan", "これは追加メッセージです", "https://k.yimg.jp/images/top/sp2/cmn/logo-ns-131205.png", [$action]);
     $columns[] = $column;
-}
+        $action = new UriTemplateActionBuilder("クリックしてね", "https://www.yahoo.co.jp");
+    // カルーセルのカラムを作成する
+    $column = new CarouselColumnTemplateBuilder("Yahoo Japan", "これは追加メッセージです", "https://k.yimg.jp/images/top/sp2/cmn/logo-ns-131205.png", [$action]);
+    $columns[] = $column;
+//}
 // カラムの配列を組み合わせてカルーセルを作成する
 $carousel = new CarouselTemplateBuilder($columns);
 // カルーセルを追加してメッセージを作る
