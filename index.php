@@ -6,6 +6,12 @@ use \LINE\LINEBot;
 use \LINE\LINEBot\Constant\HTTPHeader;
 use \LINE\LINEBot\Event\MessageEvent;
 use \LINE\LINEBot\Event\MessageEvent\TextMessage;
+use \LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder;
+use \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder.php;
+use \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder;
+
 
 $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
 $bot = new LINEBot(
