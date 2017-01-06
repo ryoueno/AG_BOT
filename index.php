@@ -25,19 +25,21 @@ $bot = new LINEBot(
 $sign   = $_SERVER["HTTP_" . HTTPHeader::LINE_SIGNATURE];
 $events = $bot->parseEventRequest(file_get_contents('php://input'), $sign);
 
-/* コンファームテスト */
-// 「はい」ボタン
-$yes_post = new PostbackTemplateActionBuilder("はい", "page={$page}");
-// 「いいえ」ボタン
-$no_post = new PostbackTemplateActionBuilder("いいえ", "page=-1");
-// Confirmテンプレートを作る
-$confirm = new ConfirmTemplateBuilder("メッセージ", [$yes_post, $no_post]);
-// Confirmメッセージを作る
-$confirm_message = new TemplateMessageBuilder("メッセージのタイトル", $confirm);
-/* コンファームテスト */
-
+$columns = []; // カルーセル型カラムを5つ追加する配列
+$action = new UriTemplateActionBuilder("クリックしてね", "https://www.yahoo.co.jp");
+// カルーセルのカラムを作成する
+$column = new CarouselColumnTemplateBuilder("Yahoo Japan", "これは追加メッセージです", "https://k.yimg.jp/images/top/sp2/cmn/logo-ns-131205.png", [$action]);
+$columns[] = $column;
+$action = new UriTemplateActionBuilder("クリックしてね", "https://www.yahoo.co.jp");
+// カルーセルのカラムを作成する
+$column = new CarouselColumnTemplateBuilder("Yahoo Japan", "これは追加メッセージです", "https://k.yimg.jp/images/top/sp2/cmn/logo-ns-131205.png", [$action]);
+$columns[] = $column;
+// カラムの配列を組み合わせてカルーセルを作成する
+$carousel = new CarouselTemplateBuilder($columns);
+// カルーセルを追加してメッセージを作る
+$carousel_message = new TemplateMessageBuilder("メッセージのタイトル", $carousel);
 $message = new MultiMessageBuilder();
-$message->add($confirm_message);
+$message->add($carousel_message);
 
 foreach ($events as $event) {
     if (!($event instanceof MessageEvent) || !($event instanceof TextMessage)) {
