@@ -17,9 +17,29 @@ $bot = new LINEBot(
 $sign   = $_SERVER["HTTP_" . HTTPHeader::LINE_SIGNATURE];
 $events = $bot->parseEventRequest(file_get_contents('php://input'), $sign);
 
+/* カルーセルテスト */
+$columns = []; // カルーセル型カラムを5つ追加する配列
+$lists = [0,1,2,3,4];
+foreach ($lists as $list) {
+    // カルーセルに付与するボタンを作る
+    $action = new UriTemplateActionBuilder("クリックしてね", "https://www.yahoo.co.jp");
+    // カルーセルのカラムを作成する
+    $column = new CarouselColumnTemplateBuilder("Yahoo Japan", "これは追加メッセージです", "", [$action]);
+    $columns[] = $column;
+}
+// カラムの配列を組み合わせてカルーセルを作成する
+$carousel = new CarouselTemplateBuilder($columns);
+// カルーセルを追加してメッセージを作る
+$carousel_message = new TemplateMessageBuilder("メッセージのタイトル", $carousel);
+$message = new MultiMessageBuilder();
+$message->add($carousel_message);
+//$message->add($confirm_message);
+/* カルーセルテスト */
+
 foreach ($events as $event) {
     if (!($event instanceof MessageEvent) || !($event instanceof TextMessage)) {
         continue;
     }
-    $bot->replyText($event->getReplyToken(), "はろう？");
+    //$bot->replyText($event->getReplyToken(), $event->getText());
+    $bot->replyText($event->getReplyToken(), $message);
 }
