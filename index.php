@@ -12,7 +12,7 @@ use \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder;
 use \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder;
 use \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder;
-use \LINE\LINEBot\TemplateActionBuilder\TemplateActionBuilder\PostbackTemplateActionBuilder;
+use \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder;
 
 
 $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
