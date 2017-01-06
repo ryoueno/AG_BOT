@@ -21,5 +21,5 @@ foreach ($events as $event) {
     if (!($event instanceof MessageEvent) || !($event instanceof TextMessage)) {
         continue;
     }
-    $bot->replyText($event->getReplyToken(), $event->getText());
+    $bot->replyText($event->getReplyToken(), "はろう？");
 }
