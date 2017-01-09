@@ -11,10 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/', 'HomeController@index');
+
+// Lecture
+Route::resource(
+    'lecture',
+    'LectureController',
+    [
+        'only' => ['index', 'show', 'create', 'store'],
+    ]
+);
