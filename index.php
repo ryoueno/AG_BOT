@@ -45,7 +45,7 @@ foreach ($events as $event) {
     if (!($event instanceof MessageEvent) || !($event instanceof TextMessage)) {
         continue;
     }
-    error_log($event->{"source"}->{"userId"});
+    error_log($event->getUserId());
     //$bot->replyText($event->getReplyToken(), $event->getText());
     $bot->replyMessage($event->getReplyToken(), $message);
 }
