@@ -23,3 +23,13 @@ Route::resource(
         'only' => ['index', 'show', 'create', 'store'],
     ]
 );
+
+// // Attendance
+// Route::resource(
+//     'attendance',
+//     'AttendanceController',
+//     [
+//         'only' => ['store'],
+//     ]
+// );
+Route::post('/attendance', 'AttendanceController@store');

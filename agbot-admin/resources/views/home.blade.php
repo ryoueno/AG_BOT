@@ -18,6 +18,9 @@
                                         </a>
                                     </td>
                                 </td>
+                                <td>
+                                    {{ $lecture->room_id }}
+                                </td>
                             </tr>
                         @empty
                             <tr><td>登録されていません</td></tr>

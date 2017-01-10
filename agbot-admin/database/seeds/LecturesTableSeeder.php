@@ -18,16 +18,19 @@ class LecturesTableSeeder extends Seeder
                 'id'      => 1,
                 'user_id' => 1,
                 'name'    => 'インターネット入門',
+                'room_id' => 'B801',
             ],
             [
                 'id'      => 2,
                 'user_id' => 1,
                 'name'    => 'インターネット基礎',
+                'room_id' => 'B802',
             ],
             [
                 'id'      => 3,
                 'user_id' => 1,
                 'name'    => 'インターネット応用',
+                'room_id' => 'B803',
             ],
         ];
 
