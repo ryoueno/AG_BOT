@@ -40,6 +40,7 @@ $carousel = new CarouselTemplateBuilder($columns);
 $carousel_message = new TemplateMessageBuilder("メッセージのタイトル", $carousel);
 $message = new MultiMessageBuilder();
 $message->add($carousel_message);
+error_log("ho");
 
 foreach ($events as $event) {
     if (!($event instanceof MessageEvent) || !($event instanceof TextMessage)) {
