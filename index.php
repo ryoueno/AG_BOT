@@ -45,7 +45,7 @@ foreach ($events as $event) {
     if (!($event instanceof MessageEvent) || !($event instanceof TextMessage)) {
         continue;
     }
-    error_log($event->getUserId());
+    error_log($bot->getProfile($event->getUserId())->getJSONDecodedBody()['displayName']);
     //$bot->replyText($event->getReplyToken(), $event->getText());
     $bot->replyMessage($event->getReplyToken(), $message);
 }
