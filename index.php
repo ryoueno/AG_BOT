@@ -43,7 +43,7 @@ function agbot($line_id, $message)
     if (empty($status)) {
         $rep = "席についてもっかいやってみ";
     } else if ($status === 1 && ctype_digit($message)) {
-        $rep = "出席できたばい"
+        $rep = "出席できたばい";
         changeStatus($line_id, 2);
     } else if ($status === 1 && !ctype_digit($message)) {
         $rep = "学籍番号ば入力せんね";
