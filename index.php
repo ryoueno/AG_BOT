@@ -52,7 +52,7 @@ function agbot($line_id, $message)
     } else if ($status === 2 && preg_match("/先生/", $message)) {
         $rep = "先生ば呼ぶとね";
     } else {
-        $rep = "授業に集中せんね"
+        $rep = "授業に集中せんね";
     }
     return $rep;
     //changeStatus($line_id, 2000);
