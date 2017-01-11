@@ -39,6 +39,7 @@ foreach ($events as $event) {
 function agbot($line_id, $message)
 {
     $status = getStatus($line_id);
+    error_log($line_id);
 
     if (empty($status)) {
         $rep = "席についてもっかいやってみ";
