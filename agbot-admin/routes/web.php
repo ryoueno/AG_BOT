@@ -23,6 +23,8 @@ Route::resource(
         'only' => ['index', 'show', 'create', 'store'],
     ]
 );
+Route::get('/lecture/reset/{id}', 'LectureController@reset');
+Route::get('/lecture/change/{id}', 'LectureController@changeReceptable');
 
 // // Attendance
 // Route::resource(
@@ -33,3 +35,6 @@ Route::resource(
 //     ]
 // );
 Route::post('/attendance', 'AttendanceController@store');
+Route::post('/student', 'StudentController@store');
+Route::post('/student/set', 'StudentController@set');
+Route::get('/student/status/{id}', 'StudentController@getStatus');

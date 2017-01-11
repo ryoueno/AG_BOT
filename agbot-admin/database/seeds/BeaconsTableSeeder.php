@@ -15,7 +15,7 @@ class BeaconsTableSeeder extends Seeder
 
         $beacons = [
             [
-                'id'      => 'ABCD1234EFGH6789',
+                'id'      => '00000000-48A4-1001-B000-001C4D175E4E',
                 'room_id' => 'B801',
             ],
         ];

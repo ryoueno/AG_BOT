@@ -25,27 +25,85 @@ $bot = new LINEBot(
 $sign   = $_SERVER["HTTP_" . HTTPHeader::LINE_SIGNATURE];
 $events = $bot->parseEventRequest(file_get_contents('php://input'), $sign);
 
-$columns = []; // カルーセル型カラムを5つ追加する配列
-$action = new UriTemplateActionBuilder("クリックしてね", "https://www.yahoo.co.jp");
-// カルーセルのカラムを作成する
-$column = new CarouselColumnTemplateBuilder("Yahoo Japan", "これは追加メッセージです", "https://k.yimg.jp/images/top/sp2/cmn/logo-ns-131205.png", [$action]);
-$columns[] = $column;
-$action = new UriTemplateActionBuilder("クリックしてね", "https://www.yahoo.co.jp");
-// カルーセルのカラムを作成する
-$column = new CarouselColumnTemplateBuilder("Yahoo Japan", "これは追加メッセージです", "https://k.yimg.jp/images/top/sp2/cmn/logo-ns-131205.png", [$action]);
-$columns[] = $column;
-// カラムの配列を組み合わせてカルーセルを作成する
-$carousel = new CarouselTemplateBuilder($columns);
-// カルーセルを追加してメッセージを作る
-$carousel_message = new TemplateMessageBuilder("メッセージのタイトル", $carousel);
-$message = new MultiMessageBuilder();
-$message->add($carousel_message);
-
 foreach ($events as $event) {
     if (!($event instanceof MessageEvent) || !($event instanceof TextMessage)) {
         continue;
     }
-    error_log($bot->getProfile($event->getUserId())->getJSONDecodedBody()['pictureUrl']);
-    //$bot->replyText($event->getReplyToken(), $event->getText());
-    $bot->replyMessage($event->getReplyToken(), $message);
+    //error_log($bot->getProfile($event->getUserId())->getJSONDecodedBody()['pictureUrl']);
+    $line_id = $event->getUserId();
+    $rep = agbot($line_id, $event->getText());
+    $bot->replyText($event->getReplyToken(), $rep);
+    //$bot->replyMessage($event->getReplyToken(), $message);
 }
+
+function agbot($line_id, $message)
+{
+    $status = getStatus($line_id);
+
+    if (empty($status)) {
+        $rep = "席についてもっかいやってみ";
+    } else if ($status === 1 && ctype_digit($message)) {
+        $rep = "出席できたばい"
+        changeStatus($line_id, 2);
+    } else if ($status === 1 && !ctype_digit($message)) {
+        $rep = "学籍番号ば入力せんね";
+    } else if ($status === 2 && preg_match("/資料/", $message)) {
+        $rep = "これが今日の資料たい\nダウンロードしなっせ";
+    } else if ($status === 2 && preg_match("/先生/", $message)) {
+        $rep = "先生ば呼ぶとね";
+    } else {
+        $rep = "授業に集中せんね"
+    }
+    return $rep;
+    //changeStatus($line_id, 2000);
+}
+
+
+/*
+ * 指定されたLINE IDのステータスを取得する
+ * @param string $line_id
+ */
+function getStatus($line_id)
+{
+    $get_status_url = 'http://agbot-admin-dev.ap-northeast-1.elasticbeanstalk.com/student/status/' . $line_id;
+
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, $get_status_url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);  // curl_execの結果を文字列で返す
+
+    $response = curl_exec($curl);
+    $result = json_decode($response, true);
+    curl_close($curl);
+    return $result;
+}
+
+/*
+ * 指定されたLINE IDのステータスを変更する
+ * @param string $line_id
+ * @param int $status
+ */
+function changeStatus($line_id, $status)
+{
+    $change_status_url = "http://agbot-admin-dev.ap-northeast-1.elasticbeanstalk.com/student/set";
+    $POST_DATA = [
+        'line_id' => $line_id,
+        'status'  => $status,
+    ];
+
+    $curl = curl_init($change_status_url);
+    curl_setopt($curl, CURLOPT_POST, TRUE);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($POST_DATA));
+    curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($curl,CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($curl,CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($curl,CURLOPT_COOKIEJAR,      'cookie');
+    curl_setopt($curl,CURLOPT_COOKIEFILE,     'tmp');
+    curl_setopt($curl,CURLOPT_FOLLOWLOCATION, TRUE); // Locationヘッダを追跡
+
+    $output= curl_exec($curl);
+    return $output;
+}
+

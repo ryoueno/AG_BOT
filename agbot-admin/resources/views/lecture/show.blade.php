@@ -11,19 +11,35 @@
                 </div>
 
                 <div class="panel-body">
+                    <div class="panel-body">
+                        <a href="{{ 'change/' . $lecture->id }}">
+                            @if($lecture->receptable)
+                                <button class="btn btn-warning">出席受付中</button>
+                            @else
+                                <button class="btn btn-info">出席者を受け付ける</button>
+                                <div>
+                                    <small class="text-muted">※現在出席できません</small>
+                                </div>
+                            @endif
+                        </a>
+                    </div>
                     <table class="table">
-                       @forelse($attendances as $attendance)
+                        <h4>出席なう</h4>
+                        @forelse($attendances as $attendance)
                             <tr>
                                 <td>
-                                    <td>
-                                        {{ $attendance->student_id }}
-                                    </td>
+                                    {{ $attendance->student_id }}
                                 </td>
                             </tr>
                         @empty
                             <tr><td>出席者はいません</td></tr>
                         @endforelse
                     </table>
+                    <div class="panel-body">
+                        <a href="{{ 'reset/' . $lecture->id }}">
+                            <button class="btn btn-primary">出席者をリセット</button>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

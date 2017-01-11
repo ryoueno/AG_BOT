@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LecturesTableSeeder::class);
         $this->call(AttendancesTableSeeder::class);
         $this->call(BeaconsTableSeeder::class);
+        $this->call(StudentsTableSeeder::class);
     }
 
     public static function truncateTable($table)

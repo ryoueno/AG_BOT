@@ -11,7 +11,21 @@ class LectureController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
+    }
+
+    public function reset($id)
+    {
+        Attendance::where('lecture_id',  $id)
+            ->update(['is_active' => false]);
+        return redirect()->route('lecture.show',  $id);
+    }
+
+    public function changeReceptable($id)
+    {
+        $lecture = Lecture::where('id', $id);
+        $lecture->update(['receptable' => !$lecture->first()->receptable]);
+        return redirect()->route('lecture.show',  $id);
     }
 
     public function show($id)

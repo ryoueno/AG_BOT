@@ -1,0 +1,3 @@
+curl --data "id=18114009&line_id=adskfads2222&name=上の量&img=https://hoge.hoge.jpg&status=1" 'http://localhost/student'
+curl --data "line_id=adskfads2222&status=2" 'http://localhost/student/set'
+curl 'http://localhost/student/status/adskfads2222';
