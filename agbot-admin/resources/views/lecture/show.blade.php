@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<script>
+    alert("上野 涼(18114035) が呼んでます");
+</script>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

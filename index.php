@@ -49,9 +49,9 @@ function agbot($line_id, $message)
     } else if ($status === 1 && !ctype_digit($message)) {
         $rep = "学籍番号ば入力せんね";
     } else if ($status === 2 && preg_match("/資料/", $message)) {
-        $rep = "これが今日の資料たい\nダウンロードしなっせ";
+        $rep = "これが今日の資料たい\nダウンロードしなっせ\nhttp://www.civil.kyutech.ac.jp/pub/hibino/experi/group7.pdf";
     } else if ($status === 2 && preg_match("/先生/", $message)) {
-        $rep = "先生ば呼ぶとね";
+        $rep = "先生呼んだばい";
     } else {
         $rep = "授業に集中せんね";
     }

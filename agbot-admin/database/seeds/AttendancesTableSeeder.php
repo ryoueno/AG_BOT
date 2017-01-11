@@ -23,7 +23,7 @@ class AttendancesTableSeeder extends Seeder
                 'id'         => 2,
                 'lecture_id' => 1,
                 'student_id' => 18114034,
-                'is_active' => 1,
+                'is_active' => 0,
             ],            [
                 'id'         => 3,
                 'lecture_id' => 1,
