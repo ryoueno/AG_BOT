@@ -43,11 +43,12 @@ function agbot($line_id, $message)
 
     if (false && empty($status)) {
         $rep = "席についてもっかいやってみ";
-    } else if ($status === 1 && ctype_digit($message)) {
+    } else if (empty($status) || $status === 1 && ctype_digit($message)) {
+        if (empty($stauts)) addStudent($message, $line_id);
         $rep = "出席できたばい";
         attend($message);
         changeStatus($line_id, 2);
-    } else if ($status === 1 && !ctype_digit($message)) {
+    } else if (empty($status) || $status === 1 && !ctype_digit($message)) {
         $rep = "学籍番号ば入力せんね";
     } else if ($status === 2 && preg_match("/資料/", $message)) {
         $rep = "これが今日の資料たい\nダウンロードしなっせ\nhttp://www.civil.kyutech.ac.jp/pub/hibino/experi/group7.pdf";
@@ -114,6 +115,31 @@ function attend($student_id)
     $change_status_url = "http://agbot-admin-dev.ap-northeast-1.elasticbeanstalk.com/attendance";
     $POST_DATA = [
         'student_id'  => $student_id,
+    ];
+
+    $curl = curl_init($change_status_url);
+    curl_setopt($curl, CURLOPT_POST, TRUE);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($POST_DATA));
+    curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($curl,CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($curl,CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($curl,CURLOPT_COOKIEJAR,      'cookie');
+    curl_setopt($curl,CURLOPT_COOKIEFILE,     'tmp');
+    curl_setopt($curl,CURLOPT_FOLLOWLOCATION, TRUE); // Locationヘッダを追跡
+
+    $output= curl_exec($curl);
+    return $output;
+}
+
+function addStudent($student_id, $line_id)
+{
+    $change_status_url = "http://agbot-admin-dev.ap-northeast-1.elasticbeanstalk.com/student";
+    $POST_DATA = [
+        'student_id'  => $student_id,
+        'line_id' => $line_id,
+        'name' => 'hoge',
+        'img' => 'hoge',
+        'status' => 1,
     ];
 
     $curl = curl_init($change_status_url);
