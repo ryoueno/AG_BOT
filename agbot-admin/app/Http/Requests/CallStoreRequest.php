@@ -24,7 +24,7 @@ class CallStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'student_id' => 'required|max:20',
+            'line_id' => 'required|max:20',
         ];
     }
 }

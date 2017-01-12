@@ -29,14 +29,14 @@ foreach ($events as $event) {
     if (!($event instanceof MessageEvent) || !($event instanceof TextMessage)) {
         continue;
     }
-    //error_log($bot->getProfile($event->getUserId())->getJSONDecodedBody()['pictureUrl']);
+    $name = $bot->getProfile($event->getUserId())->getJSONDecodedBody()['displayName'];;
     $line_id = $event->getUserId();
-    $rep = agbot($line_id, $event->getText());
+    $rep = agbot($line_id, $event->getText(), $name);
     $bot->replyText($event->getReplyToken(), $rep);
     //$bot->replyMessage($event->getReplyToken(), $message);
 }
 
-function agbot($line_id, $message)
+function agbot($line_id, $message, $name)
 {
     $status = getStatus($line_id);
     error_log($line_id);
@@ -53,7 +53,7 @@ function agbot($line_id, $message)
     } else if ($status === 2 && preg_match("/資料/", $message)) {
         $rep = "これが今日の資料たい\nダウンロードしなっせ\nhttp://www.civil.kyutech.ac.jp/pub/hibino/experi/group7.pdf";
     } else if ($status === 2 && preg_match("/先生/", $message)) {
-        call($line_id);
+        call($line_id, $name);
         $rep = "先生呼んだばい";
     } else {
         $rep = "授業に集中せんね";
@@ -157,11 +157,12 @@ function addStudent($student_id, $line_id)
     return $output;
 }
 
-function call($line_id)
+function call($line_id, $name)
 {
     $change_status_url = "http://agbot-admin-dev.ap-northeast-1.elasticbeanstalk.com/call";
     $POST_DATA = [
         'line_id'  => $line_id,
+        'name' => $name,
     ];
 
     $curl = curl_init($change_status_url);
