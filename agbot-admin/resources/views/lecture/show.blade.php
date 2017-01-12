@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<script>
-    alert("上野 涼(18114035) が呼んでます");
-</script>
+@if(!empty($call))
+    <script>
+        alert("<?= $call->name ?>(<?= $call->student_id ?>)さんが呼んでいます");
+    </script>
+@endif
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Lecture;
 use App\Models\Attendance;
+use App\Models\Call;
 use App\Http\Requests\LectureStoreRequest;
 
 class LectureController extends Controller
@@ -30,8 +31,12 @@ class LectureController extends Controller
 
     public function show($id)
     {
+        //呼び出しがあるか
+        $call = Call::first();
+        Call::truncate();
         return view('lecture.show')->with([
             'lecture' => Lecture::find($id),
+            'call' => $call,
             'attendances' => Attendance::whereLectureId($id)
                 ->whereIsActive(true)->get(),
         ]);

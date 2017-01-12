@@ -35,6 +35,7 @@ Route::get('/lecture/change/{id}', 'LectureController@changeReceptable');
 //     ]
 // );
 Route::post('/attendance', 'AttendanceController@store');
+Route::post('/call', 'CallController@store');
 Route::post('/student', 'StudentController@store');
 Route::post('/student/set', 'StudentController@set');
 Route::get('/student/status/{id}', 'StudentController@getStatus');

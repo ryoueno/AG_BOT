@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AttendanceStoreRequest extends FormRequest
+class CallStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,6 @@ class AttendanceStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //'beacon_id'  => 'required|max:50',
             'student_id' => 'required|max:20',
         ];
     }
