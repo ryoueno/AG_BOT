@@ -43,7 +43,7 @@ function agbot($line_id, $message)
 
     if (false && empty($status)) {
         $rep = "席についてもっかいやってみ";
-    } else if (empty($status) || $status === 1 && ctype_digit($message)) {
+    } else if (empty($status)  && ctype_digit($message) || $status === 1 && ctype_digit($message)) {
         if (empty($stauts)) addStudent($message, $line_id);
         $rep = "出席できたばい";
         attend($message);
