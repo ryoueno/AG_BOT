@@ -53,6 +53,7 @@ function agbot($line_id, $message)
     } else if ($status === 2 && preg_match("/資料/", $message)) {
         $rep = "これが今日の資料たい\nダウンロードしなっせ\nhttp://www.civil.kyutech.ac.jp/pub/hibino/experi/group7.pdf";
     } else if ($status === 2 && preg_match("/先生/", $message)) {
+        call($line_id);
         $rep = "先生呼んだばい";
     } else {
         $rep = "授業に集中せんね";
@@ -135,11 +136,32 @@ function addStudent($student_id, $line_id)
 {
     $change_status_url = "http://agbot-admin-dev.ap-northeast-1.elasticbeanstalk.com/student";
     $POST_DATA = [
-        'student_id'  => $student_id,
+        'id'  => $student_id,
         'line_id' => $line_id,
         'name' => 'hoge',
         'img' => 'hoge',
         'status' => 1,
+    ];
+
+    $curl = curl_init($change_status_url);
+    curl_setopt($curl, CURLOPT_POST, TRUE);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($POST_DATA));
+    curl_setopt($curl,CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($curl,CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($curl,CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($curl,CURLOPT_COOKIEJAR,      'cookie');
+    curl_setopt($curl,CURLOPT_COOKIEFILE,     'tmp');
+    curl_setopt($curl,CURLOPT_FOLLOWLOCATION, TRUE); // Locationヘッダを追跡
+
+    $output= curl_exec($curl);
+    return $output;
+}
+
+function call($line_id)
+{
+    $change_status_url = "http://agbot-admin-dev.ap-northeast-1.elasticbeanstalk.com/call";
+    $POST_DATA = [
+        'line_id'  => $line_id,
     ];
 
     $curl = curl_init($change_status_url);

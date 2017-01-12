@@ -11,7 +11,7 @@ class CallController extends Controller
 {
     public function store(CallStoreRequest $request)
     {
-        $input = $request->only(['student_id', 'name']);
+        $input = $request->only(['line_id', 'name']);
         return Call::create($input);
     }
 }
