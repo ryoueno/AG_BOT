@@ -41,7 +41,7 @@ function agbot($line_id, $message)
     $status = getStatus($line_id);
     error_log($line_id);
 
-    if (empty($status)) {
+    if (false && empty($status)) {
         $rep = "席についてもっかいやってみ";
     } else if ($status === 1 && ctype_digit($message)) {
         $rep = "出席できたばい";
